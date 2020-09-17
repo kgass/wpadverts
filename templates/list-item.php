@@ -13,7 +13,11 @@
                 <span class="advert-link-text"><?php the_title() ?></span>
                 <?php do_action( "adverts_list_after_title", get_the_ID() ) ?>
             </span>
+            <?php if ($target): ?>
+            <a href="<?php the_permalink() ?>" base target="<?php echo esc_html($target)?>" title="<?php echo esc_attr( get_the_title() ) ?>" class="advert-link-wrap"></a>
+            <?php else: ?>
             <a href="<?php the_permalink() ?>" title="<?php echo esc_attr( get_the_title() ) ?>" class="advert-link-wrap"></a>
+            <?php endif; ?>
         </div>
 
         <div class="advert-published ">

@@ -47,7 +47,8 @@ function shortcode_adverts_list( $atts ) {
         'order_by' => 'date-desc',
         'paged' => adverts_request("pg", 1),
         'posts_per_page' => adverts_config( 'config.ads_list_default__posts_per_page' ),
-        'show_pagination' => true
+        'show_pagination' => true,
+        'target' => '_self'
     ), $atts, 'adverts_list' );
 
     extract( $params );
