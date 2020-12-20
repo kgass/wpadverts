@@ -82,10 +82,31 @@ class Adverts_Gallery_Helper {
     public function load_attachments( ) {
         
         $post_id = $this->_post_id;
+        
+        $form_name = "advert";
+        $field_name = "gallery";
+        
+        $att_search_meta = array(
+            array( 'key' => 'wpadverts_form', 'value' => $form_name ),
+            array( 'key' => 'wpadverts_form_field', 'value' => $field_name )
+        );
+
+        if( $form_name == "advert" && $field_name == "gallery" ) {
+            $att_search_meta = array(
+                "relation" => "OR",
+                $att_search_meta,
+                array(
+                    array( 'key' => 'wpadverts_form', 'compare' => 'NOT EXISTS' ),
+                    array( 'key' => 'wpadverts_form_field', 'compare' => 'NOT EXISTS' )
+                )
+            );
+        }
+        
         $args = array(
             'post_parent' => $post_id,
             'post_type' => 'attachment',
             'posts_per_page' => -1,
+            'meta_query' => $att_search_meta
         );
         
         $children = get_children( $args );
@@ -102,7 +123,7 @@ class Adverts_Gallery_Helper {
         }
 
         $attach += $children;
-        $attach = adverts_sort_images($attach, $post_id);
+        $attach = adverts_sort_images($attach, $post_id, $field_name);
 
         return apply_filters( "adverts_get_post_attachments", $attach, $post_id );
     }
